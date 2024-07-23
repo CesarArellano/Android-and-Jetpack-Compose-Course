@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +18,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -55,6 +63,8 @@ fun ExampleModifier() {
 
 @Composable
 fun LazyColumnExample() {
+    var counter by rememberSaveable { mutableIntStateOf(value = 0) }
+
     LazyColumn(modifier = Modifier
         .background(Color.Red)
     ) {
@@ -66,28 +76,45 @@ fun LazyColumnExample() {
                     .fillMaxWidth()
                     .height(300.dp),
             )
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_favorite),
+                    contentDescription = "Like",
+                    modifier = Modifier.clickable {
+                        counter++
+                    }
+
+                )
+                Text(counter.toString(), color=Color.White, modifier = Modifier.padding(start=4.dp))
+            }
             Text(text = "RayWayDay", fontSize = 32.sp, color = Color.White, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
             Text(text = "Subscribe", color= Color.White)
             Text(text = "Hello", color = Color.White)
-            LazyRow(
-                contentPadding = PaddingValues(all = 10.dp),
-                modifier= Modifier.fillMaxWidth().padding(all=10.dp)
-            ) {
-                item {
-                    Text("Hello", color = Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                    Text("Jetpack Compose", color= Color.White)
-                }
-            }
         }
     }
 }
 
+
+@Composable
+fun RowExample() {
+    LazyRow(
+        contentPadding = PaddingValues(all = 10.dp),
+        modifier= Modifier
+            .fillMaxWidth()
+            .padding(all = 10.dp)
+    ) {
+        item {
+            Text("Hello", color = Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+            Text("Jetpack Compose", color= Color.White)
+        }
+    }
+}
 
 @Composable
 fun ColumnExample() {
