@@ -1,6 +1,8 @@
 package com.example.helloworldcompose
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -15,8 +17,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -26,6 +34,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,17 +52,42 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainApp() {
-    HelloWorldComposeTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.White
-        ) {
-            LazyColumnExample()
+    Scaffold(
+        topBar = {Toolbar()},
+        content= {Content()},
+        floatingActionButton = { Fab() }
+    )
+}
+
+@Composable
+fun Fab() {
+    val context = LocalContext.current;
+
+    FloatingActionButton(
+        onClick = {
+            Toast.makeText(context, "Hey Ray", Toast.LENGTH_SHORT).show()
         }
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_message),
+            contentDescription = "Icon Message"
+        )
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Toolbar() {
+    TopAppBar(
+        title = {Text(text = "RayWayDay", color= Color.White)},
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = colorResource(id = R.color.top_bar_background)
+        )
+    )
 }
 
 @Preview(showBackground = true)
@@ -62,34 +97,38 @@ fun ExampleModifier() {
 }
 
 @Composable
-fun LazyColumnExample() {
+fun Content() {
     var counter by rememberSaveable { mutableIntStateOf(value = 0) }
 
-    LazyColumn(modifier = Modifier
-        .background(Color.Red)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        item {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Logo Android",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-            )
-            Row {
+        LazyColumn(modifier = Modifier
+            .background(Color.Red)
+        ) {
+            item {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_favorite),
-                    contentDescription = "Like",
-                    modifier = Modifier.clickable {
-                        counter++
-                    }
-
+                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Logo Android",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
                 )
-                Text(counter.toString(), color=Color.White, modifier = Modifier.padding(start=4.dp))
+                Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_favorite),
+                        contentDescription = "Like",
+                        modifier = Modifier.clickable {
+                            counter++
+                        }
+
+                    )
+                    Text(counter.toString(), color=Color.White, modifier = Modifier.padding(start=4.dp))
+                }
+                Text(text = "RayWayDay", fontSize = 32.sp, color = Color.White, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                Text(text = "Subscribe", color= Color.White)
+                Text(text = "Hello", color = Color.White)
             }
-            Text(text = "RayWayDay", fontSize = 32.sp, color = Color.White, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Text(text = "Subscribe", color= Color.White)
-            Text(text = "Hello", color = Color.White)
         }
     }
 }
