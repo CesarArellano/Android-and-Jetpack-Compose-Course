@@ -6,12 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +40,7 @@ fun MainApp() {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = Color.White
         ) {
             LazyColumnExample()
         }
@@ -55,17 +56,34 @@ fun ExampleModifier() {
 @Composable
 fun LazyColumnExample() {
     LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Red)) {
+        .background(Color.Red)
+    ) {
         item {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Logo Android",
-                modifier = Modifier.fillMaxWidth().height(300.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
             )
             Text(text = "RayWayDay", fontSize = 32.sp, color = Color.White, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Text(text = "Suscribete")
-            Text(text = "Hello")
+            Text(text = "Subscribe", color= Color.White)
+            Text(text = "Hello", color = Color.White)
+            LazyRow(
+                contentPadding = PaddingValues(all = 10.dp),
+                modifier= Modifier.fillMaxWidth().padding(all=10.dp)
+            ) {
+                item {
+                    Text("Hello", color = Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                    Text("Jetpack Compose", color= Color.White)
+                }
+            }
         }
     }
 }
@@ -79,10 +97,12 @@ fun ColumnExample() {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = "Logo Android",
-            modifier = Modifier.fillMaxWidth().height(300.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp),
         )
         Text(text = "RayWayDay", fontSize = 32.sp, color = Color.White, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-        Text(text = "Suscribete")
+        Text(text = "Subscribe")
         Text(text = "Hello")
     }
 }
